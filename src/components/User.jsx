@@ -9,7 +9,11 @@ export default function User({ user, onDelete, onEdit }) {
   const lastnameEdit = useRef(null);
 
   const deleteUser = async () => {
-    if (window.confirm(`Are you sure you want to delete ${firstname} ${lastname}?`)) {
+    if (
+      window.confirm(
+        `Are you sure you want to delete ${firstname} ${lastname}?`,
+      )
+    ) {
       await onDelete(user._id);
     }
   };
