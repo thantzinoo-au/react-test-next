@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import User from "./User";
 
 export default function UsersList() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [user, setUser] = useState([]);
 
   const username = useRef(null);
@@ -11,7 +12,7 @@ export default function UsersList() {
   const lastname = useRef(null);
 
   const refreshUsersList = async () => {
-    const updatedResult = await fetch("http://localhost:3000/api/user");
+    const updatedResult = await fetch(`${API_URL}/user`);
     const updatedData = await updatedResult.json();
     setUser(updatedData);
   };
@@ -41,7 +42,7 @@ export default function UsersList() {
       firstname: firstname.current.value,
       lastname: lastname.current.value,
     };
-    const result = await fetch("http://localhost:3000/api/user", {
+    const result = await fetch(`${API_URL}/user`, {
       method: "POST",
       body: JSON.stringify(tmpUser),
     });
@@ -55,7 +56,7 @@ export default function UsersList() {
   };
 
   async function deleteUser(user_id) {
-    const result = await fetch(`http://localhost:3000/api/user/${user_id}`, {
+    const result = await fetch(`${API_URL}/user/${user_id}`, {
       method: "DELETE",
     });
     const data = await result.json();
@@ -64,7 +65,7 @@ export default function UsersList() {
   }
 
   async function editUser(user_id, tmpUser) {
-    const result = await fetch(`http://localhost:3000/api/user/${user_id}`, {
+    const result = await fetch(`${API_URL}/user/${user_id}`, {
       method: "PATCH",
       body: JSON.stringify(tmpUser),
     });
@@ -75,7 +76,7 @@ export default function UsersList() {
 
   useEffect(() => {
     async function fetchData() {
-      const result = await fetch("http://localhost:3000/api/user");
+      const result = await fetch(`${API_URL}/user`);
       const data = await result.json();
       setUser(data);
     }

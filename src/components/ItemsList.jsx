@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import Item from "./Item";
 
 export default function ItemsList() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [item, setItem] = useState([]);
 
   const itemName = useRef(null);
@@ -9,7 +10,7 @@ export default function ItemsList() {
   const itemPrice = useRef(null);
 
   const refreshItemList = async () => {
-    const updatedResult = await fetch("http://localhost:3000/api/item");
+    const updatedResult = await fetch(`${API_URL}/item`);
     const updatedData = await updatedResult.json();
     setItem(updatedData);
   };
@@ -33,7 +34,7 @@ export default function ItemsList() {
       category: itemCategory.current.value,
       price: itemPrice.current.value,
     };
-    const result = await fetch("http://localhost:3000/api/item", {
+    const result = await fetch(`${API_URL}/item`, {
       method: "POST",
       body: JSON.stringify(tmpItem),
     });
@@ -43,7 +44,7 @@ export default function ItemsList() {
   };
 
   async function deleteItem(item_id) {
-    const result = await fetch(`http://localhost:3000/api/item/${item_id}`, {
+    const result = await fetch(`${API_URL}/item/${item_id}`, {
       method: "DELETE",
     });
     const data = await result.json();
@@ -52,7 +53,7 @@ export default function ItemsList() {
   }
 
   async function editItem(item_id, tmpItem) {
-    const result = await fetch(`http://localhost:3000/api/item/${item_id}`, {
+    const result = await fetch(`${API_URL}/item/${item_id}`, {
       method: "PATCH",
       body: JSON.stringify(tmpItem),
     });
@@ -63,7 +64,7 @@ export default function ItemsList() {
 
   useEffect(() => {
     async function fetchData() {
-      const result = await fetch("http://localhost:3000/api/item");
+      const result = await fetch(`${API_URL}/item`);
       const data = await result.json();
       setItem(data);
     }
